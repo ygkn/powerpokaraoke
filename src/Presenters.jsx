@@ -76,20 +76,20 @@ class Presenters extends React.Component {
             {this.props.nowPresenting > index ||
             (this.props.nowPresenting === index && this.props.showTitle)
               ? [
-                <img src={this.props.presenters[index].image} />,
-                <span className="name">
-                  {this.props.presenters[index].name}
-                  <br />
-                  {this.props.showSubject
+                  <img src={this.props.presenters[index].image} />,
+                  <span className="name">
+                    {this.props.presenters[index].name}
+                    <br />
+                    {this.props.showSubject
                       ? this.props.subjects[this.props.subjectIndexs[index]]
                       : '? ? ? ?'}
-                </span>,
+                  </span>,
                 ]
               : [
-                <span className="noimage">?</span>,
-                <span className="name">
+                  <span className="noimage">?</span>,
+                  <span className="name">
                     ? ? ?<br />? ? ? ?
-                </span>,
+                  </span>,
                 ]}
           </li>
         ))}

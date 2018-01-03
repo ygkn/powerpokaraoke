@@ -1,21 +1,21 @@
-import React from "react";
-import { connect } from "react-redux";
-import Dropzone from "react-dropzone";
-import Modal from "react-modal";
-import Logo from "./Logo";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import React from 'react';
+import { connect } from 'react-redux';
+import Dropzone from 'react-dropzone';
+import Modal from 'react-modal';
+import Logo from './Logo';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
   faImages,
   faFileAlt,
   faStopwatch,
   faPlusSquare,
   faCog,
-  faCamera
-} from "@fortawesome/fontawesome-free-solid";
+  faCamera,
+} from '@fortawesome/fontawesome-free-solid';
 
-import { submitForm } from "./actions";
+import { submitForm } from './actions';
 
-const shuffle = array => {
+const shuffle = (array) => {
   const result = [...array];
   for (let i = array.length - 1; i > 0; i--) {
     const r = Math.floor(Math.random() * (i + 1));
@@ -34,10 +34,10 @@ class Form extends React.Component {
       formData: {
         timeLimit: 3,
         slides: [],
-        subjects: "",
-        presenters: [{ image: null, name: "" }]
+        subjects: '',
+        presenters: [{ image: null, name: '' }],
       },
-      modal: "none"
+      modal: 'none',
     };
   }
 
@@ -46,19 +46,19 @@ class Form extends React.Component {
   }
 
   closeModal() {
-    this.setState({ modal: "none" });
+    this.setState({ modal: 'none' });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const subjects = this.state.formData.subjects.split("\n").filter(v => v);
+    const subjects = this.state.formData.subjects.split('\n').filter(v => v);
 
     this.props.onSubmit({
       ...this.state.formData,
       presenterIndexs: shuffle(this.state.formData.presenters.map((_, i) => i)),
       subjectIndexs: shuffle(subjects.map((_, i) => i)),
       slides: shuffle(this.state.formData.slides),
-      subjects
+      subjects,
     });
   }
 
@@ -72,15 +72,15 @@ class Form extends React.Component {
         ...this.state.formData,
         slides: [
           ...this.state.formData.slides,
-          ...files.map(file => window.URL.createObjectURL(file))
-        ]
-      }
+          ...files.map(file => window.URL.createObjectURL(file)),
+        ],
+      },
     });
   }
 
   handleInputSubjects(text) {
     this.setState({
-      formData: { ...this.state.formData, subjects: text }
+      formData: { ...this.state.formData, subjects: text },
     });
   }
 
@@ -88,11 +88,8 @@ class Form extends React.Component {
     this.setState({
       formData: {
         ...this.state.formData,
-        presenters: [
-          ...this.state.formData.presenters,
-          { image: null, name: "" }
-        ]
-      }
+        presenters: [...this.state.formData.presenters, { image: null, name: '' }],
+      },
     });
   }
   handleDropPresenterImage(file, index) {
@@ -103,11 +100,11 @@ class Form extends React.Component {
           ...this.state.formData.presenters.slice(0, index),
           {
             name: this.state.formData.presenters[index].name,
-            image: window.URL.createObjectURL(file)
+            image: window.URL.createObjectURL(file),
           },
-          ...this.state.formData.presenters.slice(index + 1)
-        ]
-      }
+          ...this.state.formData.presenters.slice(index + 1),
+        ],
+      },
     });
   }
 
@@ -119,11 +116,11 @@ class Form extends React.Component {
           ...this.state.formData.presenters.slice(0, index),
           {
             image: this.state.formData.presenters[index].image,
-            name
+            name,
           },
-          ...this.state.formData.presenters.slice(index + 1)
-        ]
-      }
+          ...this.state.formData.presenters.slice(index + 1),
+        ],
+      },
     });
   }
 
@@ -247,30 +244,26 @@ class Form extends React.Component {
               type="number"
               min="1"
               max="99"
-              onInput={e =>
-                this.handleInputTimeLimit(parseInt(e.target.value, 10))
-              }
+              onInput={e => this.handleInputTimeLimit(parseInt(e.target.value, 10))}
             />
-            <button type="button" onClick={() => this.openModal("slide")}>
+            <button type="button" onClick={() => this.openModal('slide')}>
               <FontAwesomeIcon icon={faImages} />
               &nbsp;
               {`スライド（${this.state.formData.slides.length}）`}
             </button>
-            <button type="button" onClick={() => this.openModal("subject")}>
+            <button type="button" onClick={() => this.openModal('subject')}>
               <FontAwesomeIcon icon={faFileAlt} />
               &nbsp;
-              {`お題（${
-                this.state.formData.subjects.split("\n").filter(v => v).length
-              }）`}
+              {`お題（${this.state.formData.subjects.split('\n').filter(v => v).length}）`}
             </button>
-            {/*}
+            {/* }
             <button>
               <FontAwesomeIcon icon={faCog} />&nbsp;設定
             </button>
-            {*/}
+            { */}
           </label>
           <Modal
-            isOpen={this.state.modal === "slide"}
+            isOpen={this.state.modal === 'slide'}
             contentLabel="Slides"
             className="modal"
             overlayClassName="modal-overlay"
@@ -281,15 +274,13 @@ class Form extends React.Component {
               accept="image/*"
             >
               {this.state.formData.slides.length
-                ? this.state.formData.slides.map(slide => (
-                    <img className="preview" src={slide} />
-                  ))
-                : "クリックまたはドロップでスライドを追加"}
+                ? this.state.formData.slides.map(slide => <img className="preview" src={slide} />)
+                : 'クリックまたはドロップでスライドを追加'}
             </Dropzone>
             <button onClick={() => this.closeModal()}>完了</button>
           </Modal>
           <Modal
-            isOpen={this.state.modal === "subject"}
+            isOpen={this.state.modal === 'subject'}
             contentLabel="Subjects"
             className="modal"
             overlayClassName="modal-overlay"
@@ -302,6 +293,7 @@ class Form extends React.Component {
               className="input-subjects"
               onInput={e => this.handleInputSubjects(e.target.value)}
               value={this.state.formData.subjects}
+              placeholder="お題を入力…"
             />
             <button onClick={() => this.closeModal()}>完了</button>
           </Modal>
@@ -318,9 +310,7 @@ class Form extends React.Component {
                   className="dropzone"
                   multiple={false}
                   accept="image/*"
-                  onDrop={files =>
-                    this.handleDropPresenterImage(files[0], index)
-                  }
+                  onDrop={files => this.handleDropPresenterImage(files[0], index)}
                 >
                   {image != null ? (
                     <img className="preview" src={image} />
@@ -331,9 +321,7 @@ class Form extends React.Component {
                 <input
                   type="text"
                   value={name}
-                  onInput={e =>
-                    this.handleInputPresenterName(e.target.value, index)
-                  }
+                  onInput={e => this.handleInputPresenterName(e.target.value, index)}
                   placeholder="出場者名を入力…"
                 />
               </li>
@@ -349,6 +337,6 @@ class Form extends React.Component {
 export default connect(
   () => ({}),
   dispatch => ({
-    onSubmit: payload => dispatch(submitForm(payload))
-  })
+    onSubmit: payload => dispatch(submitForm(payload)),
+  }),
 )(Form);
