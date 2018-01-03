@@ -1,7 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import { timeup } from './actions';
+import { timeup } from "./actions";
 
 const CLOCK_STROKE_WIDTH = 44 * 2 * Math.PI;
 
@@ -25,25 +25,25 @@ class Countdown extends React.Component {
   }
 
   startCountdown() {
-    console.log('start');
+    console.log("start");
     this.setState({
       remaining: this.props.timeLimit,
-      timer: setInterval(() => this.tick(), 1000),
+      timer: setInterval(() => this.tick(), 1000)
     });
   }
 
   stopCountdown() {
-    console.log('stop');
+    console.log("stop");
     clearInterval(this.state.timer);
     this.setState({
       remaining: this.props.timeLimit,
-      timer: null,
+      timer: null
     });
     this.props.onEnd();
   }
 
   tick() {
-    console.log('tick');
+    console.log("tick");
     const remaining = this.state.remaining - 1;
     if (remaining < 0) {
       this.stopCountdown();
@@ -53,8 +53,11 @@ class Countdown extends React.Component {
   }
 
   render() {
-    const second = String(this.state.remaining % 60).padStart(2, '0');
-    const minutes = String(Math.floor(this.state.remaining / 60)).padStart(2, '0');
+    const second = String(this.state.remaining % 60).padStart(2, "0");
+    const minutes = String(Math.floor(this.state.remaining / 60)).padStart(
+      2,
+      "0"
+    );
     const strokeDashoffset = this.props.isCountdowning
       ? CLOCK_STROKE_WIDTH * (1 - this.state.remaining / this.props.timeLimit)
       : 0;
@@ -72,6 +75,7 @@ class Countdown extends React.Component {
               height: 5em;
               width: 5em;
               position: relative;
+              font-family: 'Julius Sans One', sans-serif;
             }
             svg {
               position: absolute;
@@ -124,7 +128,7 @@ class Countdown extends React.Component {
 export default connect(
   ({ timeLimit, screen }) => ({
     timeLimit: timeLimit * 60,
-    isCountdowning: screen === 'slide',
+    isCountdowning: screen === "slide"
   }),
-  dispatch => ({ onEnd: () => dispatch(timeup()) }),
+  dispatch => ({ onEnd: () => dispatch(timeup()) })
 )(Countdown);
