@@ -263,9 +263,11 @@ class Form extends React.Component {
                 this.state.formData.subjects.split("\n").filter(v => v).length
               }）`}
             </button>
+            {/*}
             <button>
               <FontAwesomeIcon icon={faCog} />&nbsp;設定
             </button>
+            {*/}
           </label>
           <Modal
             isOpen={this.state.modal === "slide"}
