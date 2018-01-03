@@ -30,6 +30,7 @@ export const reducer = (state = defaultState, action) => {
         };
       }
       if (screen === 'none') {
+        if (state.nowPresenting === state.presenters.length - 1) return state;
         return { ...state, screen, nowPresenting: state.nowPresenting + 1 };
       }
       return { ...state, screen };

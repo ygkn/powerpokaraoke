@@ -1,19 +1,34 @@
-import React from "react";
-import Slot from "react-slot-machine";
-import { connect } from "react-redux";
-import { CSSTransition } from "react-transition-group";
-import { resolveScopedStyles } from "./helper";
+import React from 'react';
+import Slot from 'react-slot-machine';
+import { connect } from 'react-redux';
+import { CSSTransition } from 'react-transition-group';
+import { resolveScopedStyles } from './helper';
 
-const Title = props => (
-  console.log(props.screen),
-  (
-    <div
-      className={`wrapper ${["none", "name", "subject"].includes(
-        props.screen
-      ) && "show"}`}
-    >
-      {/* prettier-ignore */}
-      <style jsx>{`
+class Title extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidUpdate({ screen }) {
+    if (screen !== this.props.screen && ['name', 'subject'].includes(this.props.screen)) {
+      const rollPlayer = new Audio('drum-roll1.mp3');
+      rollPlayer.loop = true;
+      rollPlayer.play();
+      setTimeout(() => {
+        rollPlayer.pause();
+        const finishPlayer = new Audio('roll-finish1.mp3');
+        finishPlayer.play();
+      }, 3000);
+    }
+  }
+
+  render() {
+    return (
+      <div
+        className={`wrapper ${['none', 'name', 'subject'].includes(this.props.screen) && 'show'}`}
+      >
+        {/* prettier-ignore */}
+        <style jsx>{`
         .wrapper {
           font-weight: bold;
           display: flex;
@@ -64,39 +79,38 @@ const Title = props => (
         }
       `}
         </style>
-      <Slot
-        className="name"
-        times={2}
-        target={props.screen !== "none" ? props.nowPresenting + 1 : 0}
-      >
-        {[
-          <div className="item">? ? ?</div>,
-          ...props.presenters.map(({ name, image }) => (
-            <div className="item">
-              <img src={image} />
-              <p>{name}</p>
-            </div>
-          ))
-        ]}
-      </Slot>
-      <Slot
-        className="subject"
-        times={2}
-        target={
-          !["none", "title"].includes(props.screen)
-            ? props.nowPresenting + 1
-            : 0
-        }
-      >
-        {[
-          <div className="item">? ? ?</div>,
-          ...props.subjects.map(subject => (
-            <div className="item">{subject}</div>
-          ))
-        ]}
-      </Slot>
-    </div>
-  )
-);
+        <Slot
+          className="name"
+          times={2}
+          target={this.props.screen !== 'none' ? this.props.nowPresenting + 1 : 0}
+        >
+          {[
+            <div className="item">? ? ?</div>,
+            ...this.props.presenters.map(({ name, image }) => (
+              <div className="item">
+                <img src={image} />
+                <p>{name}</p>
+              </div>
+            )),
+          ]}
+        </Slot>
+        <Slot
+          className="subject"
+          times={2}
+          target={
+            this.props.screen !== 'none' && this.props.screen !== 'name'
+              ? this.props.nowPresenting + 1
+              : 0
+          }
+        >
+          {[
+            <div className="item">? ? ?</div>,
+            ...this.props.subjects.map(subject => <div className="item">{subject}</div>),
+          ]}
+        </Slot>
+      </div>
+    );
+  }
+}
 
 export default connect(state => state)(Title);
