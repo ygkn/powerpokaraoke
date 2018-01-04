@@ -373,7 +373,7 @@ export const Logo = props => (
       margin: 0;
     }
     path {
-      animation: 5s linear infinite animateHSLColors ;
+      animation: 30s linear infinite animateHSLColors ;
     }
     `}
     </style>
