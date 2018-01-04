@@ -11,6 +11,8 @@ import {
   faPlusSquare,
   faCog,
   faCamera,
+  faVolumeUp,
+  faVolumeOff,
 } from '@fortawesome/fontawesome-free-solid';
 
 import { submitForm } from './actions';
@@ -32,6 +34,9 @@ class Form extends React.Component {
     super(props);
     this.state = {
       formData: {
+        enableSound: true,
+        slideCount: 5,
+        isInfiniteSlide: true,
         timeLimit: 3,
         slides: [],
         subjects: '',
@@ -51,7 +56,7 @@ class Form extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const subjects = this.state.formData.subjects.split('\n').filter(v => v);
+    const subjects = this.state.formData.subjects.split('\n').filter(v => !/^\s*$/.test(v));
 
     this.props.onSubmit({
       ...this.state.formData,
@@ -124,6 +129,18 @@ class Form extends React.Component {
     });
   }
 
+  handleChangeEnableSound(enableSound) {
+    this.setState({ formData: { ...this.state.formData, enableSound } });
+  }
+
+  handleInputSlideCount(slideCount) {
+    this.setState({ formData: { ...this.state.formData, slideCount } });
+  }
+
+  handleChangeIsInfiniteSlide(isInfiniteSlide) {
+    this.setState({ formData: { ...this.state.formData, isInfiniteSlide } });
+  }
+
   render() {
     return (
       <div className="wrapper">
@@ -144,13 +161,18 @@ class Form extends React.Component {
               border: solid 1px;
               margin: .3em
             }
+            input:disabled,
+            button:disabled,
+            textarea:disabled {
+              opacity: .5;
+            }
             button {
               background: linear-gradient(to bottom, rgba(255,255,255,.2) 0%,rgba(255,255,255,0) 100%);
               border-radius: 3px;
               padding: .5em
             }
-            label {
-              display: block;
+            p {
+              display: flex;
             }
             .wrapper {
               background: #111;
@@ -158,7 +180,8 @@ class Form extends React.Component {
               height: 100vh;
             }
             .wrapper :global(.logo) {
-              width: 50%;
+              height: 40vh;
+              width: auto;
             }
             :global(.slides-dropzone), .input-subjects {
               overflow: auto;
@@ -223,6 +246,7 @@ class Form extends React.Component {
               margin: 0 auto;
               display: flex;
               flex-direction: column;
+              padding: 1em;
             }
             :global(.modal-overlay) {
               position: fixed;
@@ -236,16 +260,7 @@ class Form extends React.Component {
         </style>
         <form onSubmit={e => this.handleSubmit(e)}>
           <Logo svgClassName="logo" />
-          <label>
-            <FontAwesomeIcon icon={faStopwatch} />
-            &nbsp; 制限時間（分）
-            <input
-              value={this.state.formData.timeLimit}
-              type="number"
-              min="1"
-              max="99"
-              onInput={e => this.handleInputTimeLimit(parseInt(e.target.value, 10))}
-            />
+          <p>
             <button type="button" onClick={() => this.openModal('slide')}>
               <FontAwesomeIcon icon={faImages} />
               &nbsp;
@@ -254,14 +269,14 @@ class Form extends React.Component {
             <button type="button" onClick={() => this.openModal('subject')}>
               <FontAwesomeIcon icon={faFileAlt} />
               &nbsp;
-              {`お題（${this.state.formData.subjects.split('\n').filter(v => v).length}）`}
+              {`お題（${
+                this.state.formData.subjects.split('\n').filter(v => !/^\s*$/.test(v)).length
+              }）`}
             </button>
-            {/* }
-            <button>
+            <button onClick={() => this.openModal('setting')} type="button">
               <FontAwesomeIcon icon={faCog} />&nbsp;設定
             </button>
-            { */}
-          </label>
+          </p>
           <Modal
             isOpen={this.state.modal === 'slide'}
             contentLabel="Slides"
@@ -288,6 +303,8 @@ class Form extends React.Component {
             <p>
               <FontAwesomeIcon icon={faFileAlt} />
               &nbsp; お題（改行区切り）
+              <br />
+              空白のみの行は無視されます。
             </p>
             <textarea
               className="input-subjects"
@@ -297,12 +314,61 @@ class Form extends React.Component {
             />
             <button onClick={() => this.closeModal()}>完了</button>
           </Modal>
-          <label>
+          <Modal
+            isOpen={this.state.modal === 'setting'}
+            contentLabel="Setting"
+            className="modal"
+            overlayClassName="modal-overlay"
+          >
+            <p>
+              <FontAwesomeIcon icon={faStopwatch} />
+              &nbsp; 制限時間（分）
+              <input
+                value={this.state.formData.timeLimit}
+                type="number"
+                min="1"
+                max="99"
+                onInput={e => this.handleInputTimeLimit(parseInt(e.target.value, 10))}
+              />
+            </p>
+            <p>
+              <label>
+                <FontAwesomeIcon
+                  icon={this.state.formData.enableSound ? faVolumeUp : faVolumeOff}
+                />
+                &nbsp; 音声（効果音） &nbsp;
+                <input
+                  type="checkbox"
+                  onChange={({ target }) => this.handleChangeEnableSound(target.checked)}
+                  checked={this.state.formData.enableSound}
+                />
+              </label>
+            </p>
+            <p>
+              <FontAwesomeIcon icon={faImages} /> &nbsp;一人あたりスライドの枚数&nbsp;
+              <input
+                type="number"
+                min="1"
+                onInput={({ target }) => this.handleInputSlideCount(target)}
+                value={this.state.formData.slideCount}
+                disabled={this.state.formData.isInfiniteSlide}
+              />
+              &nbsp;
+              <input
+                type="checkbox"
+                checked={this.state.formData.isInfiniteSlide}
+                onChange={({ target }) => this.handleChangeIsInfiniteSlide(target.checked)}
+              />
+              無制限
+            </p>
+            <button onClick={() => this.closeModal()}>完了</button>
+          </Modal>
+          <div>
             <button onClick={() => this.handleAddPresenter()} type="button">
               <FontAwesomeIcon icon={faPlusSquare} />
               &nbsp; 出場者を追加
             </button>
-          </label>
+          </div>
           <ul className="presenters">
             {this.state.formData.presenters.map(({ image, name }, index) => (
               <li key={index}>

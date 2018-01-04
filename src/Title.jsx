@@ -3,19 +3,24 @@ import Slot from 'react-slot-machine';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 
+const rollPlayer = new Audio('drum-roll1.mp3');
+rollPlayer.loop = true;
+const finishPlayer = new Audio('roll-finish1.mp3');
+
 class Title extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidUpdate({ screen }) {
-    if (screen !== this.props.screen && ['name', 'subject'].includes(this.props.screen)) {
-      const rollPlayer = new Audio('drum-roll1.mp3');
-      rollPlayer.loop = true;
+    if (
+      this.props.enableSound &&
+      screen !== this.props.screen &&
+      ['name', 'subject'].includes(this.props.screen)
+    ) {
       rollPlayer.play();
       setTimeout(() => {
         rollPlayer.pause();
-        const finishPlayer = new Audio('roll-finish1.mp3');
         finishPlayer.play();
       }, 3000);
     }

@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+const player = new Audio('gong-played2.mp3');
+
 class Timeup extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidUpdate({ screen }) {
-    if (screen !== 'timeup' && this.props.screen === 'timeup') {
-      const player = new Audio('gong-played2.mp3');
+    if (this.props.enableSound && screen !== 'timeup' && this.props.screen === 'timeup') {
       player.play();
     }
   }
@@ -16,6 +17,7 @@ class Timeup extends React.Component {
   render() {
     return (
       <div className={`timeup ${this.props.screen === 'timeup' && 'show'}`}>
+        {/* prettier-ignore */}
         <style jsx>{`
           .timeup {
             text-align: center;
@@ -42,4 +44,4 @@ class Timeup extends React.Component {
   }
 }
 
-export default connect(({ screen }) => ({ screen }))(Timeup);
+export default connect(({ screen, enableSound }) => ({ screen, enableSound }))(Timeup);

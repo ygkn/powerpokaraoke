@@ -3,6 +3,10 @@ import { SUBMIT_FORM, CLICK, TIMEUP } from './actions';
 const screenList = ['timeup', 'none', 'name', 'subject', 'slide'];
 
 const defaultState = {
+  enableSound: true,
+  slideCount: 5,
+  isInfiniteSlide: true,
+  countSlideOfAPresenter: 0,
   screen: 'none',
   timeLimit: 5,
   presenters: [],
@@ -23,10 +27,18 @@ export const reducer = (state = defaultState, action) => {
       // go to next screen (next to 'slide' is also 'slide')
       const screen = screenList[screenList.indexOf(state.screen) + 1] || 'slide';
       if (screen === 'slide') {
+        const countSlideOfAPresenter = state.countSlideOfAPresenter + 1;
+        if (state.isInfiniteSlide || countSlideOfAPresenter < state.slideCount) {
+          return {
+            ...state,
+            screen,
+            displayingSlide: (state.displayingSlide + 1) % state.slides.length,
+            countSlideOfAPresenter,
+          };
+        }
         return {
           ...state,
           screen,
-          displayingSlide: (state.displayingSlide + 1) % state.slides.length,
         };
       }
       if (screen === 'none') {
