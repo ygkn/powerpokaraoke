@@ -62,7 +62,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "deploy": "yarn run build && gh-pages -d build"
   },
   "devDependencies": {
     "eslint": "^4.13.1",
@@ -70,6 +71,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
+    "gh-pages": "^1.1.0",
     "prettier-eslint": "^8.6.0",
     "prettier-eslint-cli": "^4.7.0"
   },
@@ -117,5 +119,10 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  }
+  },
+  "main": "index.js",
+  "repository": "git@github.com:ygkn/powerpokaraoke.git",
+  "author": "Yugo Yagita <2000ygkn0713@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://ygkn.github.io/powerpokaraoke"
 }
