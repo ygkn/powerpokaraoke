@@ -2,7 +2,6 @@ import React from 'react';
 import Slot from 'react-slot-machine';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import { resolveScopedStyles } from './helper';
 
 class Title extends React.Component {
   constructor(props) {
