@@ -62,3 +62,5 @@
 ## Special Thanks
 
 [@Happa8](https://github.com/Happa8) ロゴデザイン
+
+効果音源は[効果音ラボ](https://soundeffect-lab.info/sound/anime/)様からお借りしました。
