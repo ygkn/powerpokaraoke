@@ -13,6 +13,7 @@ import {
   faCamera,
   faVolumeUp,
   faVolumeOff,
+  faQuestionCircle,
 } from '@fortawesome/fontawesome-free-solid';
 
 import { submitForm } from './actions';
@@ -155,7 +156,8 @@ class Form extends React.Component {
             }
             input,
             button,
-            textarea {
+            textarea,
+            a {
               color: inherit;
               background: transparent;
               border: solid 1px;
@@ -166,7 +168,8 @@ class Form extends React.Component {
             textarea:disabled {
               opacity: .5;
             }
-            button {
+            button,
+            a {
               background: linear-gradient(to bottom, rgba(255,255,255,.2) 0%,rgba(255,255,255,0) 100%);
               border-radius: 3px;
               padding: .5em
@@ -276,6 +279,9 @@ class Form extends React.Component {
             <button onClick={() => this.openModal('setting')} type="button">
               <FontAwesomeIcon icon={faCog} />&nbsp;設定
             </button>
+            <a href="https://github.com/ygkn/powerpokaraoke#readme" target="_blank">
+              <FontAwesomeIcon icon={faQuestionCircle} />&nbsp;使い方（README）
+            </a>
           </p>
           <Modal
             isOpen={this.state.modal === 'slide'}
