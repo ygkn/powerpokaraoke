@@ -72,7 +72,7 @@ class Countdown extends React.Component {
               height: 5em;
               width: 5em;
               position: relative;
-              font-family: 'Julius Sans One', sans-serif;
+              font-family: 'Cutive Mono', monospace;
             }
             svg {
               position: absolute;
