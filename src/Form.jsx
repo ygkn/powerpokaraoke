@@ -184,7 +184,7 @@ class Form extends React.Component {
             }
             .wrapper :global(.logo) {
               height: 40vh;
-              width: auto;
+              width: 100%;
             }
             :global(.slides-dropzone), .input-subjects {
               overflow: auto;
@@ -245,7 +245,9 @@ class Form extends React.Component {
               bottom: 3em;
               left: 0;
               right: 0;
-              width: 600px;
+              max-width: 600px;
+              width: 100%;
+              box-sizing: border-box;
               margin: 0 auto;
               display: flex;
               flex-direction: column;

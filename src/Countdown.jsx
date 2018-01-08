@@ -100,18 +100,17 @@ class Countdown extends React.Component {
             }
             .time {
               text-align: center;
-              font-size: 1.5em;
+              font-size: 1.4em;
               position: absolute;
-              top: 0;
+              top: 50%;
               left: 0;
               width: 100%;
-              height: 100%;
-              line-height: ${5 / 1.5};
+              transform: translateY(-50%);
             }
           `}
         </style>
         <div className="timer">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96.732 96.732">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <circle className="clock" />
             <circle className="clock-hand" style={{ strokeDashoffset }} />
           </svg>

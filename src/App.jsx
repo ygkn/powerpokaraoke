@@ -21,8 +21,8 @@ const App = props =>
             'logo       screen'
             'presenters screen'
             'presenters timer ';
-          grid-template-columns: 200px 1fr;
-          grid-template-rows: 150px 1fr 5em;
+          grid-template-columns: 15em 1fr;
+          grid-template-rows: auto 1fr auto;
           background: #111;
           color: #fff;
         }
