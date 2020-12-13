@@ -7,6 +7,7 @@ import type { AppProps } from 'next/app';
 import { VFC } from 'react';
 
 import { useScreenHeight } from '../util/screen-height';
+import { UserProvider } from '../util/user';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAvUkEUbLzjZlmlXOs0aDYZipsCAi_ZKZI',
@@ -42,10 +43,12 @@ const MyApp: VFC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ChakraProvider theme={theme}>
       <DefaultSeo title="パワポカラオケ" />
-      <Component
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...pageProps}
-      />
+      <UserProvider>
+        <Component
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...pageProps}
+        />
+      </UserProvider>
     </ChakraProvider>
   );
 };

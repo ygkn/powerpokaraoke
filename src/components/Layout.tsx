@@ -13,8 +13,9 @@ import {
 import firebase from 'firebase';
 import Router from 'next/router';
 import { FC } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { FaChevronDown } from 'react-icons/fa';
+
+import { useUser } from '../util/user';
 
 const login = async (): Promise<void> => {
   await firebase
@@ -31,7 +32,7 @@ const logout = async (): Promise<void> => {
 };
 
 export const Layout: FC = ({ children }) => {
-  const [user, loading, error] = useAuthState(firebase.auth());
+  const userState = useUser();
 
   return (
     <>
@@ -40,22 +41,30 @@ export const Layout: FC = ({ children }) => {
           <Heading as="h1" fontSize="4xl" color="red.500" mr="auto">
             パワポカラオケ
           </Heading>
-          {loading && <Spinner />}
-          {!loading && user == null && (
+          {(userState.state === 'LOADING_AUTH' ||
+            userState.state === 'LOADING_DB') && <Spinner />}
+          {userState.state === 'UNAUTHORIZED' && (
             <Button colorScheme="red" onClick={login}>
               ログイン
             </Button>
           )}
-          {!loading && user && (
+          {(userState.state === 'LOADED' ||
+            userState.state === 'LOADING_DB') && (
             <Menu>
-              <MenuButton>
-                <Button rightIcon={<FaChevronDown />} variant="ghost">
+              <MenuButton
+                as={Button}
+                rightIcon={<FaChevronDown />}
+                variant="ghost"
+                _hover={{ bg: 'gray.500' }}
+              >
+                {userState.state === 'LOADED' && (
                   <Avatar
-                    name={user?.displayName}
-                    src={user?.photoURL}
+                    name={userState.user.name}
+                    src={userState.user.photoURL}
                     size="sm"
                   />
-                </Button>
+                )}
+                {userState.state === 'LOADING_DB' && <Spinner size="sm" />}
               </MenuButton>
               <MenuList color="gray.800">
                 <MenuItem onClick={logout}>ログアウト</MenuItem>
