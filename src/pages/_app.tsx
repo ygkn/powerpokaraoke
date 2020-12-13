@@ -1,11 +1,10 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 import { DefaultSeo } from 'next-seo';
 import type { AppProps } from 'next/app';
 import { VFC } from 'react';
-
-import 'firebase/auth';
-import 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAvUkEUbLzjZlmlXOs0aDYZipsCAi_ZKZI',
