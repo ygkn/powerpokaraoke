@@ -1,5 +1,11 @@
 import { VFC } from 'react';
 
-const IndexPage: VFC = () => <p>Hello! World</p>;
+import { Layout } from '../components/Layout';
+
+const IndexPage: VFC = () => (
+  <Layout>
+    <p>Hello! World</p>
+  </Layout>
+);
 
 export default IndexPage;
