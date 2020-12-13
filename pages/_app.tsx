@@ -1,5 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import firebase from 'firebase/app';
+import { DefaultSeo } from 'next-seo';
 import type { AppProps } from 'next/app';
 import { VFC } from 'react';
 
@@ -22,6 +23,7 @@ if (!firebase.apps.length) {
 const MyApp: VFC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ChakraProvider>
+      <DefaultSeo title="パワポカラオケ" />
       <Component
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...pageProps}
