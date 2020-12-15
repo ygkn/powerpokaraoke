@@ -1,16 +1,19 @@
 import {
   Avatar,
+  Box,
   Button,
   Container,
   Flex,
   Heading,
+  Link,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Spinner,
 } from '@chakra-ui/react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import NextLink from 'next/link';
 import Router from 'next/router';
 import { FC } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
@@ -21,14 +24,10 @@ const login = async (): Promise<void> => {
   await firebase
     .auth()
     .signInWithPopup(new firebase.auth.TwitterAuthProvider());
-
-  Router.push('/');
 };
 
 const logout = async (): Promise<void> => {
   await firebase.auth().signOut();
-
-  Router.push('/');
 };
 
 export const Layout: FC = ({ children }) => {
@@ -36,10 +35,17 @@ export const Layout: FC = ({ children }) => {
 
   return (
     <>
-      <Container height="screen" maxWidth="container" centerContent>
+      <Container
+        height="screen"
+        maxWidth="container"
+        display="flex"
+        flexDir="column"
+      >
         <Flex as="header" p="2" width="full" alignItems="center">
           <Heading as="h1" fontSize="4xl" color="red.500" mr="auto">
-            パワポカラオケ
+            <NextLink href="/" passHref>
+              <Link>パワポカラオケ</Link>
+            </NextLink>
           </Heading>
           {(userState.state === 'LOADING_AUTH' ||
             userState.state === 'LOADING_DB') && <Spinner />}
@@ -72,8 +78,9 @@ export const Layout: FC = ({ children }) => {
             </Menu>
           )}
         </Flex>
-
-        {children}
+        <Box as="main" display="flex" flexDir="column" flexGrow={1} px="4">
+          {children}
+        </Box>
       </Container>
     </>
   );

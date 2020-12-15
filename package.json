@@ -37,12 +37,16 @@
     "@chakra-ui/react": "^1.0.3",
     "@emotion/react": "^11.1.2",
     "@emotion/styled": "^11.0.0",
+    "dayjs": "^1.9.7",
     "firebase": "^8.2.0",
+    "formik": "^2.2.6",
     "framer-motion": "^2.9.5",
+    "nanoid": "^3.1.20",
     "next": "^10.0.3",
     "next-seo": "^4.17.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-dropzone": "^11.2.4",
     "react-firebase-hooks": "^2.2.0",
     "react-icons": "^4.1.0"
   }

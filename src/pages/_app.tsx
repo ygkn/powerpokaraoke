@@ -2,9 +2,11 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
 import { DefaultSeo } from 'next-seo';
 import type { AppProps } from 'next/app';
 import { VFC } from 'react';
+import 'dayjs/plugin/utc';
 
 import { useScreenHeight } from '../util/screen-height';
 import { UserProvider } from '../util/user';
@@ -34,6 +36,13 @@ const theme = extendTheme({
         color: 'gray.100',
       },
     }),
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        color: 'ButtonText',
+      },
+    },
   },
 });
 

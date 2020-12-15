@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { createContext, FC, useContext, useEffect } from 'react';
 import { useAuthState, AuthStateHook } from 'react-firebase-hooks/auth';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
@@ -83,7 +83,7 @@ const useUserState = (): UserState => {
     return { state: 'ERROR', error: firestoreError };
   }
 
-  if (authUser === undefined) {
+  if (authUser == null) {
     return { state: 'UNAUTHORIZED' };
   }
 
