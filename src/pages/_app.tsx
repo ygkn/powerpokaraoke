@@ -51,7 +51,7 @@ const MyApp: VFC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <ChakraProvider theme={theme}>
-      <DefaultSeo title="パワポカラオケ" />
+      <DefaultSeo title="パワポカラオケ" noindex />
       <UserProvider>
         <Component
           // eslint-disable-next-line react/jsx-props-no-spreading
