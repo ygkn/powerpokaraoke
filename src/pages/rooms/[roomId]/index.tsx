@@ -17,8 +17,8 @@ import { FaCog } from 'react-icons/fa';
 
 import { JoinRoom } from '../../../components/JoinRoom';
 import { Layout } from '../../../components/Layout';
+import { Presenter } from '../../../components/Presenter';
 import { PrivatePage } from '../../../components/PrivatePage';
-import { UserAvatar } from '../../../components/User';
 import { Room, RoomPrivate } from '../../../util/room';
 import { useQueryString } from '../../../util/router';
 import { useUser } from '../../../util/user';
@@ -115,11 +115,14 @@ const RoomPage: VFC = () => {
     };
   }, [restTime, room?.endTime]);
 
+  const canGoNextSlide =
+    room !== undefined &&
+    user !== undefined &&
+    last(room.presentedParticipants) === user.id &&
+    restTime !== '00:00';
+
   const goNextSlide = async () => {
-    if (
-      last(room.presentedParticipants) !== user.id ||
-      (room.endTime !== null && dayjs().isAfter(room.endTime.toMillis()))
-    ) {
+    if (!canGoNextSlide) {
       return;
     }
 
@@ -169,20 +172,27 @@ const RoomPage: VFC = () => {
                     )}
                   </Flex>
                   <Flex flexGrow={1}>
-                    <Flex
-                      width="40"
-                      flexDirection="column-reverse"
-                      justifyContent="flex-end"
-                    >
-                      <Box>{restTime}</Box>
-                      {room.presentedParticipants.map((userId, index) => (
-                        <Box key={userId}>
-                          <UserAvatar uid={userId} />
-                          <Text as="p">
-                            {room.presentedThemes[index] ?? '???'}
-                          </Text>
+                    <Flex width="48" flexShrink={0} flexDirection="column">
+                      <Box>
+                        <Text as="p">残り時間</Text>
+                        <Box
+                          fontSize="2xl"
+                          py="4"
+                          textAlign="center"
+                          fontFamily="monospace"
+                        >
+                          {restTime}
                         </Box>
-                      ))}
+                      </Box>
+                      {room.presentedParticipants
+                        .reverse()
+                        .map((userId, index) => (
+                          <Presenter
+                            key={userId}
+                            theme={room.presentedThemes[index]}
+                            uid={userId}
+                          />
+                        ))}
                     </Flex>
                     <Box flexGrow={1} h="full">
                       <Button
@@ -193,6 +203,8 @@ const RoomPage: VFC = () => {
                         _hover={{ background: 'none' }}
                         p="0"
                         borderRadius="0"
+                        disabled={!canGoNextSlide}
+                        _disabled={{ opacity: 1, cursor: 'not-allowed' }}
                       >
                         <Image
                           src={slideUrl}
