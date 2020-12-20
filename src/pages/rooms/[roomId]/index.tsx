@@ -23,7 +23,7 @@ import { Room, RoomPrivate } from '../../../util/room';
 import { useQueryString } from '../../../util/router';
 import { useUser } from '../../../util/user';
 
-const last = <T extends any>(array: T[]): T | undefined =>
+const last = <T extends unknown>(array: T[]): T | undefined =>
   array.length !== 0 ? array[array.length - 1] : undefined;
 
 const RoomPage: VFC = () => {
