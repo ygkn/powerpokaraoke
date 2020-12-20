@@ -110,7 +110,10 @@ export const JoinRoom: VFC<{ room: Room; roomId: string }> = ({
     },
     [form]
   );
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    onDrop,
+  });
 
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
