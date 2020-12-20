@@ -27,12 +27,12 @@ export const RoomList: VFC = () => {
         rooms.map((room) => (
           <Flex as="article" key={room.id}>
             <Text flexGrow={1}>{room.name}</Text>
-            <Link href={`/rooms/${room.id}`}>
+            <Link href={`/rooms/${room.id}`} passHref>
               <Button as="a" color="ButtonText">
                 ルームへ
               </Button>
             </Link>
-            <Link href={`/rooms/${room.id}/setting`}>
+            <Link href={`/rooms/${room.id}/setting`} passHref>
               <Button as="a" color="ButtonText">
                 ルーム設定へ
               </Button>
