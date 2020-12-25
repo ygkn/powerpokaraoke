@@ -72,7 +72,7 @@ export const Layout: FC = ({ children }) => {
                 )}
                 {userState.state === 'LOADING_DB' && <Spinner size="sm" />}
               </MenuButton>
-              <MenuList color="gray.800">
+              <MenuList>
                 <MenuItem onClick={logout}>ログアウト</MenuItem>
               </MenuList>
             </Menu>
