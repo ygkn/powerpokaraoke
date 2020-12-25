@@ -118,8 +118,8 @@ const RoomPage: VFC = () => {
   const canGoNextSlide =
     room !== undefined &&
     user !== undefined &&
-    last(room.presentedParticipants) === user.id &&
-    restTime !== '00:00';
+    restTime !== '00:00' &&
+    (last(room.presentedParticipants) === user.id || room.owner === user.id);
 
   const goNextSlide = async () => {
     if (!canGoNextSlide) {
